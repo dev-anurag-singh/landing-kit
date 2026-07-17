@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from "react";
+import { useState, type ComponentProps, type ReactNode } from "react";
 import Image from "next/image";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -104,42 +104,24 @@ function SelectMenu({
   error?: string;
 }) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const onDown = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
 
   const current = options.find((o) => o.value === value);
   const shown = current ? current.label : placeholder;
 
   return (
-    <div ref={ref} className="relative">
+    <div className="relative">
       <FieldLabel>{label}</FieldLabel>
-      <SelectTrigger
-        open={open}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        onClick={() => setOpen((o) => !o)}
-      >
-        <span className={value ? "text-ink" : "text-ink/45"}>{shown}</span>
-      </SelectTrigger>
-      {open && (
-        <div
+      {/* Portaled popover (not an inline absolute menu) so the dropdown is
+          never clipped by the form panel's `overflow-hidden`. */}
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger render={<SelectTrigger open={open} aria-haspopup="listbox" />}>
+          <span className={value ? "text-ink" : "text-ink/45"}>{shown}</span>
+        </PopoverTrigger>
+        <PopoverContent
+          align="start"
+          sideOffset={6}
           role="listbox"
-          className="mrd-scroll absolute left-0 right-0 top-[calc(100%+6px)] z-50 max-h-[248px] origin-top animate-in overflow-auto rounded-[13px] border border-ink/15 bg-background p-1.5 shadow-soft-lg duration-150 fade-in-0 zoom-in-95 slide-in-from-top-1"
+          className="mrd-scroll max-h-[248px] w-(--anchor-width) gap-0 overflow-auto rounded-[13px] border border-ink/15 bg-background p-1.5 shadow-soft-lg ring-0"
         >
           {options.map((o) => {
             const selected = o.value === value;
@@ -163,8 +145,8 @@ function SelectMenu({
               </button>
             );
           })}
-        </div>
-      )}
+        </PopoverContent>
+      </Popover>
       <FieldError>{error}</FieldError>
     </div>
   );
