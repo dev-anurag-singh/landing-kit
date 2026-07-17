@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo } from "next/font/google";
+import { Archivo, Fraunces, Nunito_Sans } from "next/font/google";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -7,6 +7,21 @@ const archivo = Archivo({
   variable: "--font-sans",
   subsets: ["latin"],
   weight: ["400", "600", "800"],
+});
+
+// Ember & Oak (cozy-vintage coffee house) — elegant serif display paired
+// with a warm humanist sans. Activated inside the `data-theme="emberoak"`
+// scope in globals.css.
+const fraunces = Fraunces({
+  variable: "--font-emberoak-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT"],
+});
+
+const nunitoSans = Nunito_Sans({
+  variable: "--font-emberoak-sans",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -62,7 +77,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${archivo.variable} h-full antialiased`}
+      className={`${archivo.variable} ${fraunces.variable} ${nunitoSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

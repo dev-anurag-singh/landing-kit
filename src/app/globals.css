@@ -10,6 +10,7 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
+  --font-serif: var(--font-serif);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -92,6 +93,9 @@
   --brand-2: #818cf8;
   --divider: color-mix(in srgb, #1b1a19 16%, transparent);
 
+  /* Default serif stack; templates override with their own display font */
+  --font-serif: ui-serif, Georgia, "Times New Roman", serif;
+
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -136,6 +140,39 @@
   --divider: color-mix(in srgb, #201e1d 16%, transparent);
 
   --radius: 0.7rem;
+}
+
+/* ── Template theme: Ember & Oak (cozy-vintage coffee house) ─────────
+   Warm cream ground, espresso ink, terracotta accent, muted-olive
+   secondary, soft rounded corners, serif display + humanist sans.
+   Applied via <div data-theme="emberoak"> at the template root. */
+[data-theme="emberoak"] {
+  --background: #f4ece0;
+  --foreground: #2a211b;
+  --card: #f4ece0;
+  --card-foreground: #2a211b;
+  --popover: #f4ece0;
+  --popover-foreground: #2a211b;
+  --primary: #a54d31;
+  --primary-foreground: #f8f2e8;
+  --secondary: #ebdfcb;
+  --secondary-foreground: #2a211b;
+  --muted: #ebdfcb;
+  --muted-foreground: color-mix(in srgb, #2a211b 62%, transparent);
+  --accent: #ebdfcb;
+  --accent-foreground: #2a211b;
+  --destructive: #8a3f28;
+  --border: color-mix(in srgb, #2a211b 14%, transparent);
+  --input: color-mix(in srgb, #2a211b 18%, transparent);
+  --ring: #a54d31;
+
+  --brand-700: #7f3822;
+  --brand-2: #6b6f4a;
+  --divider: color-mix(in srgb, #2a211b 14%, transparent);
+
+  --radius: 1rem;
+  --font-sans: var(--font-emberoak-sans);
+  --font-serif: var(--font-emberoak-serif);
 }
 
 .dark {
@@ -234,4 +271,67 @@ html {
 .mrd-scroll::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--foreground) 40%, transparent);
   background-clip: padding-box;
+}
+
+/* ── Per-template window scrollbars ──────────────────────────────
+   Themes the root/page scrollbar to match whichever template is
+   active, selected via :has() on the [data-theme] wrapper. Browsers
+   without :has() simply fall back to the default scrollbar. */
+
+/* Meridian — warm ink thumb on the off-white ground. */
+html:has([data-theme="meridian"]) {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, #201e1d 34%, #f3f2f2) #f3f2f2;
+}
+html:has([data-theme="meridian"])::-webkit-scrollbar { width: 13px; }
+html:has([data-theme="meridian"])::-webkit-scrollbar-track { background: #f3f2f2; }
+html:has([data-theme="meridian"])::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, #201e1d 30%, #f3f2f2);
+  border-radius: 999px;
+  border: 3px solid #f3f2f2;
+  background-clip: padding-box;
+}
+html:has([data-theme="meridian"])::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, #201e1d 52%, #f3f2f2);
+  background-clip: padding-box;
+}
+
+/* Ember & Oak — warm walnut thumb on a beige track. */
+html:has([data-theme="emberoak"]) {
+  scrollbar-width: thin;
+  scrollbar-color: #b0855b #ebdfcb;
+}
+html:has([data-theme="emberoak"])::-webkit-scrollbar { width: 13px; }
+html:has([data-theme="emberoak"])::-webkit-scrollbar-track { background: #ebdfcb; }
+html:has([data-theme="emberoak"])::-webkit-scrollbar-thumb {
+  background: #b0855b;
+  border-radius: 999px;
+  border: 3px solid #ebdfcb;
+  background-clip: padding-box;
+}
+html:has([data-theme="emberoak"])::-webkit-scrollbar-thumb:hover {
+  background: #7f3822;
+  background-clip: padding-box;
+}
+
+/* Scroll-reveal — used by the <Reveal> component (IntersectionObserver
+   toggles data-shown). Content fades + rises into place once, on entry. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none;
+  }
 }

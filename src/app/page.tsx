@@ -23,6 +23,14 @@ const templates: Template[] = [
     accent: "#ec3013",
     available: true,
   },
+  {
+    slug: "ember-oak",
+    name: "Ember & Oak",
+    tagline: "A cozy-vintage coffee house — brand story, roasting craft, menu and gallery.",
+    category: "Coffee / Café",
+    accent: "#a54d31",
+    available: true,
+  },
 ];
 
 export default function Home() {
