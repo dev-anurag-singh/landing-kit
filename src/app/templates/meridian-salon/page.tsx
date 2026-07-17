@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { siteConfig } from "@/lib/site";
 import BookingForm from "./booking-form";
 import {
   ADDRESS,
@@ -17,10 +18,80 @@ import {
   stats,
 } from "./data";
 
+const PATH = "/templates/meridian-salon";
+const pageTitle = "Meridian — Men's Grooming Lounge";
+const pageDescription =
+  "Traditional barbering, done sharp. Skin fades, hot-towel shaves and beard work by a bench of career barbers in downtown Chicago. Book a chair online.";
+
 export const metadata: Metadata = {
-  title: "Meridian — Men's Grooming Lounge",
-  description:
-    "Traditional barbering, done sharp. Skin fades, hot-towel shaves and beard work by a bench of career barbers in downtown Chicago.",
+  title: pageTitle,
+  description: pageDescription,
+  keywords: [
+    "barber shop",
+    "men's haircut",
+    "skin fade",
+    "hot towel shave",
+    "beard trim",
+    "straight razor shave",
+    "Chicago barber",
+    "book a barber online",
+    "grooming lounge",
+  ],
+  alternates: { canonical: PATH },
+  openGraph: {
+    type: "website",
+    title: pageTitle,
+    description: pageDescription,
+    url: PATH,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+  },
+};
+
+// Structured data — a local business so the shop is eligible for rich results.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HairSalon",
+  "@id": `${siteConfig.url}${PATH}`,
+  name: "Meridian Grooming Lounge",
+  description: pageDescription,
+  url: `${siteConfig.url}${PATH}`,
+  image: `${siteConfig.url}${PATH}/opengraph-image`,
+  telephone: "+1-312-555-7890",
+  priceRange: "$$",
+  currenciesAccepted: "USD",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "412 Wells Street",
+    addressLocality: "Chicago",
+    addressRegion: "IL",
+    postalCode: "60654",
+    addressCountry: "US",
+  },
+  areaServed: "Chicago, IL",
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "19:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Saturday",
+      opens: "08:00",
+      closes: "17:00",
+    },
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    reviewCount: "1200",
+    bestRating: "5",
+  },
 };
 
 /* Shared layout primitives for this template. */
@@ -56,6 +127,10 @@ function SectionHeading({ className, children }: { className?: string; children:
 export default function MeridianSalonPage() {
   return (
     <div id="top" data-theme="meridian" className="min-h-screen bg-background text-ink font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* ── Nav ─────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-40 border-b-2 border-divider bg-[color-mix(in_srgb,var(--background)_86%,transparent)] backdrop-blur-md">
         <Container className="flex items-center gap-[22px] py-3.5">

@@ -1,4 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 type Template = {
   slug: string;
@@ -26,7 +31,7 @@ export default function Home() {
       <div className="mx-auto max-w-[1100px] px-[clamp(20px,5vw,72px)] py-[clamp(56px,8vw,120px)]">
         <span className="inline-flex items-center gap-[9px] text-[13px] font-bold uppercase tracking-[0.09em] text-brand-700">
           <span className="block h-0.5 w-[26px] bg-brand" />
-          Template Studio
+          Landing Kit
         </span>
         <h1 className="mt-6 max-w-[16ch] font-heading text-[clamp(40px,6vw,76px)] font-extrabold leading-[1.02] tracking-[-0.028em]">
           Production-ready site templates.
@@ -41,7 +46,7 @@ export default function Home() {
             const card = (
               <div className="group flex h-full flex-col overflow-hidden rounded-[18px] border border-ink/12 bg-surface transition-all hover:-translate-y-1 hover:border-ink/28 hover:shadow-soft-lg">
                 <div
-                  className="relative flex aspect-[16/10] items-center justify-center overflow-hidden"
+                  className="relative flex aspect-16/10 items-center justify-center overflow-hidden"
                   style={{ background: `linear-gradient(135deg, ${t.accent}, #201e1d)` }}
                 >
                   <span className="font-heading text-[34px] font-extrabold tracking-[0.16em] text-white">
