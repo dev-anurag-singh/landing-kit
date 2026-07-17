@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Fraunces, Nunito_Sans } from "next/font/google";
+import { Archivo, Fraunces, Geist, Geist_Mono, Nunito_Sans } from "next/font/google";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -21,6 +21,19 @@ const fraunces = Fraunces({
 
 const nunitoSans = Nunito_Sans({
   variable: "--font-emberoak-sans",
+  subsets: ["latin"],
+});
+
+// Sable (future-forward AI platform) — Geist for display + body, Geist
+// Mono for UI chrome, labels and metrics. Activated inside the
+// `data-theme="sable"` scope in globals.css.
+const geist = Geist({
+  variable: "--font-sable-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -77,7 +90,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${archivo.variable} ${fraunces.variable} ${nunitoSans.variable} h-full antialiased`}
+      className={`${archivo.variable} ${fraunces.variable} ${nunitoSans.variable} ${geist.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

@@ -31,6 +31,14 @@ const templates: Template[] = [
     accent: "#a54d31",
     available: true,
   },
+  {
+    slug: "sable",
+    name: "Sable",
+    tagline: "A future-forward AI agent platform — floating dashboard, bento grid and live product UI.",
+    category: "AI / SaaS",
+    accent: "#7c6cff",
+    available: true,
+  },
 ];
 
 export default function Home() {

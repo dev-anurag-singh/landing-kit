@@ -175,6 +175,39 @@
   --font-serif: var(--font-emberoak-serif);
 }
 
+/* ── Template theme: Sable (future-forward AI agent platform) ────────
+   Dark-first. Near-black neutral ground, near-white text, a single
+   electric-violet accent, hairline borders, generous radii. Display +
+   body set in Geist; UI chrome/labels use Geist Mono. Applied via
+   <div data-theme="sable"> at the template root. */
+[data-theme="sable"] {
+  --background: #08080b;
+  --foreground: #ededf2;
+  --card: #101015;
+  --card-foreground: #ededf2;
+  --popover: #101015;
+  --popover-foreground: #ededf2;
+  --primary: #7c6cff;
+  --primary-foreground: #0a0a0f;
+  --secondary: #14141b;
+  --secondary-foreground: #ededf2;
+  --muted: #14141b;
+  --muted-foreground: color-mix(in srgb, #ededf2 56%, transparent);
+  --accent: #17171f;
+  --accent-foreground: #ededf2;
+  --destructive: #ff6b6b;
+  --border: color-mix(in srgb, #ededf2 10%, transparent);
+  --input: color-mix(in srgb, #ededf2 14%, transparent);
+  --ring: #7c6cff;
+
+  --brand-700: #a99dff;
+  --brand-2: #9d90ff;
+  --divider: color-mix(in srgb, #ededf2 9%, transparent);
+
+  --radius: 1.1rem;
+  --font-sans: var(--font-sable-sans);
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -314,6 +347,28 @@ html:has([data-theme="emberoak"])::-webkit-scrollbar-thumb:hover {
   background-clip: padding-box;
 }
 
+/* Sable — dim neutral thumb on the near-black ground. `color-scheme` keeps
+   native/overlay scrollbars (notably on mobile) dark, and the matching
+   background stops a light gutter showing through on overscroll. */
+html:has([data-theme="sable"]) {
+  color-scheme: dark;
+  background-color: #08080b;
+  scrollbar-width: thin;
+  scrollbar-color: #33333f #0a0a0e;
+}
+html:has([data-theme="sable"])::-webkit-scrollbar { width: 13px; }
+html:has([data-theme="sable"])::-webkit-scrollbar-track { background: #0a0a0e; }
+html:has([data-theme="sable"])::-webkit-scrollbar-thumb {
+  background: #2b2b36;
+  border-radius: 999px;
+  border: 3px solid #0a0a0e;
+  background-clip: padding-box;
+}
+html:has([data-theme="sable"])::-webkit-scrollbar-thumb:hover {
+  background: #3d3d4d;
+  background-clip: padding-box;
+}
+
 /* Scroll-reveal — used by the <Reveal> component (IntersectionObserver
    toggles data-shown). Content fades + rises into place once, on entry. */
 .reveal {
@@ -333,5 +388,72 @@ html:has([data-theme="emberoak"])::-webkit-scrollbar-thumb:hover {
     opacity: 1 !important;
     transform: none !important;
     transition: none;
+  }
+}
+
+/* ── Sable (AI platform) — atmosphere & UI-mockup helpers ──────────── */
+
+/* Faint blueprint grid, faded toward the edges with a radial mask. */
+.sbl-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px);
+  background-size: 60px 60px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 40%, transparent 100%);
+}
+
+/* Aurora glow — kept within the accent hue so it never turns rainbow. */
+.sbl-aurora {
+  background:
+    radial-gradient(46% 40% at 50% -6%, color-mix(in srgb, var(--primary) 42%, transparent), transparent 70%),
+    radial-gradient(30% 34% at 82% 8%, color-mix(in srgb, var(--primary) 26%, transparent), transparent 72%),
+    radial-gradient(34% 36% at 14% 6%, color-mix(in srgb, #4f7bff 22%, transparent), transparent 72%);
+  filter: blur(8px);
+}
+
+/* Fine film grain to break up flat gradients. */
+.sbl-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+
+/* Glass panel — translucent card with a hairline edge + soft depth. */
+.sbl-glass {
+  background: color-mix(in srgb, var(--card) 72%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 1px 0 0 color-mix(in srgb, #ffffff 6%, transparent) inset,
+    0 30px 60px -30px rgba(0, 0, 0, 0.8);
+}
+
+/* Accent glow used on the primary CTA / centerpiece dashboard. */
+.sbl-glow {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--primary) 24%, transparent),
+    0 24px 70px -24px color-mix(in srgb, var(--primary) 55%, transparent);
+}
+
+/* Gentle floating motion for the hero's orbiting UI windows. */
+@keyframes sblFloat1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+@keyframes sblFloat2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(13px); } }
+@keyframes sblFloat3 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.sbl-float1 { animation: sblFloat1 7s ease-in-out infinite; }
+.sbl-float2 { animation: sblFloat2 8.5s ease-in-out infinite; }
+.sbl-float3 { animation: sblFloat3 6.4s ease-in-out infinite; }
+
+/* Pulsing status dot + spinner + logo marquee. */
+@keyframes sblPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.sbl-pulse { animation: sblPulse 2s ease-in-out infinite; }
+@keyframes sblSpin { to { transform: rotate(360deg); } }
+.sbl-spin { animation: sblSpin 0.9s linear infinite; }
+@keyframes sblMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.sbl-marquee { animation: sblMarquee 34s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sbl-float1, .sbl-float2, .sbl-float3, .sbl-pulse, .sbl-spin, .sbl-marquee {
+    animation: none !important;
   }
 }
