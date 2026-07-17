@@ -70,7 +70,10 @@ function SelectTrigger({
       type="button"
       className={cn(
         "flex h-[50px] w-full cursor-pointer items-center justify-between gap-2.5 rounded-lg border bg-transparent px-[15px] text-[15px] outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
-        open ? "border-ink" : "border-input hover:border-ink/45",
+        // While open, Base UI moves focus into the popup, so `:focus-visible`
+        // no longer applies to the trigger — drive the same ring from `open`
+        // so the active state matches a focused text input.
+        open ? "border-ring ring-[3px] ring-ring/50" : "border-input hover:border-ink/45",
         className,
       )}
       {...props}
